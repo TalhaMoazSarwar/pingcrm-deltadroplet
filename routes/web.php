@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\LeadsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UsersController;
@@ -127,6 +128,36 @@ Route::delete('contacts/{contact}', [ContactsController::class, 'destroy'])
 
 Route::put('contacts/{contact}/restore', [ContactsController::class, 'restore'])
     ->name('contacts.restore')
+    ->middleware('auth');
+
+// Leads
+
+Route::get('leads', [LeadsController::class, 'index'])
+    ->name('leads')
+    ->middleware('auth');
+
+Route::get('leads/create', [LeadsController::class, 'create'])
+    ->name('leads.create')
+    ->middleware('auth');
+
+Route::post('leads', [LeadsController::class, 'store'])
+    ->name('leads.store')
+    ->middleware('auth');
+
+Route::get('leads/{lead}/edit', [LeadsController::class, 'edit'])
+    ->name('leads.edit')
+    ->middleware('auth');
+
+Route::put('leads/{lead}', [LeadsController::class, 'update'])
+    ->name('leads.update')
+    ->middleware('auth');
+
+Route::delete('leads/{lead}', [LeadsController::class, 'destroy'])
+    ->name('leads.destroy')
+    ->middleware('auth');
+
+Route::put('leads/{lead}/restore', [LeadsController::class, 'restore'])
+    ->name('leads.restore')
     ->middleware('auth');
 
 // Reports
