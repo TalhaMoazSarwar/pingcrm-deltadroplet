@@ -27,7 +27,7 @@ class LeadsController extends Controller
                     'title' => $lead->title,
                     'organization' => $lead->organization->only('name'),
                     'contact' => $lead->contact->only('first_name'),
-                    'status' => $lead->status,
+                    'status' => str($lead->status)->headline(),
                     'deleted_at' => $lead->deleted_at,
                 ]),
         ]);

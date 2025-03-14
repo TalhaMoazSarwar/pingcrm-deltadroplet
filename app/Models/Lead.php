@@ -17,7 +17,14 @@ class Lead extends Model
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query->where('title', 'like', '%' . $search . '%');
+            $query->where('title', 'like', '%' . $search . '%')
+                ->orWhere('status', 'like', '%' . $search . '%')
+                ->orWhereHas('organization', function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('contact', function ($query) use ($search) {
+                    $query->where('first_name', 'like', '%' . $search . '%');
+                });
         })->when($filters['trashed'] ?? null, function ($query, $trashed) {
             if ($trashed === 'with') {
                 $query->withTrashed();
