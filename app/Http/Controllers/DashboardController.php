@@ -11,12 +11,14 @@ class DashboardController extends Controller
     public function index(): Response
     {
         return Inertia::render('Dashboard/Index', [
-            'organizations_count' => Auth::user()->account
-                ->organizations()->count(),
-            'contacts_count' => Auth::user()->account
-                ->contacts()->count(),
-            'leads_count' => Auth::user()->account
-                ->leads()->count(),
+            'stats' => [
+                'Organizations' => Auth::user()->account
+                    ->organizations()->count(),
+                'Contacts' => Auth::user()->account
+                    ->contacts()->count(),
+                'Leads' => Auth::user()->account
+                    ->leads()->count(),
+            ]
         ]);
     }
 }
