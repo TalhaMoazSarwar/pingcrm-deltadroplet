@@ -24,8 +24,7 @@
           <select-input v-model="form.status" :error="form.errors.status" class="pb-8 pr-6 w-full lg:w-1/2"
             label="Status">
             <option :value="null" />
-            <option value="new">New</option>
-            <option value="contacted">Contacted</option>
+            <option v-for="status in statuses" :key="status.value" :value="status.value">{{ status.label }}</option>
           </select-input>
         </div>
         <div class="flex items-center justify-end px-8 py-4 bg-gray-50 border-t border-gray-100">
@@ -56,6 +55,7 @@ export default {
   props: {
     organizations: Array,
     contacts: Array,
+    statuses: Array,
   },
   remember: 'form',
   data() {

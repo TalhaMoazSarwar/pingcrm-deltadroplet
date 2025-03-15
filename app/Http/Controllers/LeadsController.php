@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LeadStatus;
 use App\Models\Lead;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,7 @@ class LeadsController extends Controller
                     'title' => $lead->title,
                     'organization' => $lead->organization->only('name'),
                     'contact' => $lead->contact->only('first_name'),
-                    'status' => str($lead->status)->headline(),
+                    'status' => $lead->status->label(),
                     'deleted_at' => $lead->deleted_at,
                 ]),
         ]);
@@ -48,6 +49,11 @@ class LeadsController extends Controller
                 ->get()
                 ->map
                 ->only('id', 'first_name'),
+            'statuses' => collect(LeadStatus::cases())
+                ->map(static fn($status) => [
+                    'label' => $status->label(),
+                    'value' => $status->value,
+                ])
         ]);
     }
 
@@ -62,7 +68,7 @@ class LeadsController extends Controller
                 'contact_id' => ['required', Rule::exists('contacts', 'id')->where(function ($query) {
                     $query->where('account_id', Auth::user()->account_id);
                 })],
-                'status' => ['required', 'string', 'in:new,contacted'],
+                'status' => ['required', 'string', Rule::enum(LeadStatus::class)],
             ])
         );
 
@@ -92,6 +98,11 @@ class LeadsController extends Controller
                 ->get()
                 ->map
                 ->only('id', 'first_name'),
+            'statuses' => collect(LeadStatus::cases())
+                ->map(static fn($status) => [
+                    'label' => $status->label(),
+                    'value' => $status->value,
+                ])
         ]);
     }
 
@@ -106,7 +117,7 @@ class LeadsController extends Controller
                 'contact_id' => ['required', Rule::exists('contacts', 'id')->where(function ($query) {
                     $query->where('account_id', Auth::user()->account_id);
                 })],
-                'status' => ['required', 'string', 'in:new,contacted'],
+                'status' => ['required', 'string', Rule::enum(LeadStatus::class)],
             ])
         );
 

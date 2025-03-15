@@ -2,12 +2,22 @@
 
 namespace App\Models;
 
+use App\Enums\LeadStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lead extends Model
 {
     use SoftDeletes;
+
+    protected function casts(): array
+    {
+        return [
+            'status' => LeadStatus::class,
+        ];
+    }
+
 
     public function resolveRouteBinding($value, $field = null)
     {
@@ -34,17 +44,17 @@ class Lead extends Model
         });
     }
 
-    public function account()
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
     }
 
-    public function organization()
+    public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);
     }
 
-    public function contact()
+    public function contact(): BelongsTo
     {
         return $this->belongsTo(Contact::class);
     }

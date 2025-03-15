@@ -15,21 +15,20 @@
           <text-input v-model="form.title" :error="form.errors.name" class="pb-8 pr-6 w-full lg:w-1/2" label="Title" />
           <select-input v-model="form.organization_id" :error="form.errors.organization_id"
             class="pb-8 pr-6 w-full lg:w-1/2" label="Organization">
-            <option :value="null" />
+            <!-- <option :value="null" /> -->
             <option v-for="organization in organizations" :key="organization.id" :value="organization.id">{{
               organization.name }}</option>
           </select-input>
           <select-input v-model="form.contact_id" :error="form.errors.contact_id" class="pb-8 pr-6 w-full lg:w-1/2"
             label="Contact">
-            <option :value="null" />
-            <option value="1">Ashlynn Metz</option>
-            <option value="2">Brycen Dickinson</option>
+            <!-- <option :value="null" /> -->
+            <option v-for="contact in contacts" :key="contact.id" :value="contact.id">{{
+              contact.first_name }}</option>
           </select-input>
           <select-input v-model="form.status" :error="form.errors.status" class="pb-8 pr-6 w-full lg:w-1/2"
             label="Status">
-            <option :value="null" />
-            <option value="new">New</option>
-            <option value="contacted">Contacted</option>
+            <!-- <option :value="null" /> -->
+            <option v-for="status in statuses" :key="status.value" :value="status.value">{{ status.label }}</option>
           </select-input>
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-50 border-t border-gray-100">
@@ -103,6 +102,7 @@ export default {
     lead: Object,
     organizations: Array,
     contacts: Array,
+    statuses: Array,
   },
   remember: 'form',
   data() {
